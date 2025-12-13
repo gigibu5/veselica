@@ -1,3 +1,24 @@
+<?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+include_once("preveri.php");
+
+if (isset($_GET["narocilo"])) {
+	$narocilo = $_GET["narocilo"];
+
+	$sql = "SELECT CONCAT('Miza ', m.vrsta, m.stolpec)
+FROM narocilo n
+INNER JOIN miza m ON (n.miza = m.id)
+WHERE n.id=$narocilo;";
+
+	$miza = $conn->query($sql)->fetch_column();
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -58,45 +79,66 @@
 		<div class="container">
 			<nav class="navbar is-flex is-justify-content-space-between is-fixed-top">
 				<div class="navbar-item">
-					<h1 class="title" id="naslov">Izberi mizo</h1>
+					<h1 class="title" id="naslov"><?php
+													if (isset($miza)) {
+														echo $miza;
+													} else {
+														echo "Izberi mizo";
+													}
+													?></h1>
 				</div>
 				<div class="navbar-item">
-					<a id="shrani" class="button is-success">
+					<a id="shrani" class="button is-success" hx-get="shrani_narocilo.php?narocilo=<?php echo $narocilo ?>">
 						Shrani
 					</a>
 				</div>
 			</nav>
 
-			<div id="pogled" class="mize buttons">
-				<button class="button is-primary baton" hx-get="dodaj_pozicijo.php?artikel=31&amp;narocilo=1" hx-swap="outerHTML">
-					Čevapčiči 5 kom
-				</button> <button class="button is-primary baton" hx-get="dodaj_pozicijo.php?artikel=30&amp;narocilo=1" hx-swap="outerHTML">
-					Čevapčiči 8 kom
-				</button> <button class="button is-primary baton" hx-get="dodaj_pozicijo.php?artikel=3&amp;narocilo=1" hx-swap="outerHTML">
-					Hot Dog
-				</button> <button class="button is-primary baton" hx-get="dodaj_pozicijo.php?artikel=33&amp;narocilo=1" hx-swap="outerHTML">
-					Klobasa 1/2
-				</button> <button class="button is-primary baton" hx-get="dodaj_pozicijo.php?artikel=32&amp;narocilo=1" hx-swap="outerHTML">
-					Klobasa cela
-				</button> <button class="button is-warning baton" hx-get="dodaj_pozicijo.php?artikel=34&amp;narocilo=1" hx-swap="outerHTML">
-					Čevapčiči 5 kom KUPON
-				</button> <button class="button is-warning baton" hx-get="dodaj_pozicijo.php?artikel=35&amp;narocilo=1" hx-swap="outerHTML">
-					Čevapčiči 8 kom KUPON
-				</button> <button class="button is-warning baton" hx-get="dodaj_pozicijo.php?artikel=38&amp;narocilo=1" hx-swap="outerHTML">
-					Hot Dog KUPON
-				</button> <button class="button is-warning baton" hx-get="dodaj_pozicijo.php?artikel=36&amp;narocilo=1" hx-swap="outerHTML">
-					Klobasa 1/2 KUPON
-				</button> <button class="button is-warning baton" hx-get="dodaj_pozicijo.php?artikel=37&amp;narocilo=1" hx-swap="outerHTML">
-					Klobasa cela KUPON
-				</button>
-			</div>
+			<?php
+			if (!isset($_GET["narocilo"])) {
+				include("mize.php");
+			}
+			?>
 
 			<div id="dodatki" style="display: none;"></div>
 
 			<div id="novo">
+				<?php
+				include("artikli.php");
+				include("navigacija_spodaj.php");
+				?>
 			</div>
 		</div>
 	</section>
+
+	<script>
+		let naslov = document.getElementById("naslov");
+
+		let vrsta;
+		let stolpec;
+
+		function shraniVrsto(v) {
+			vrsta = v;
+		}
+
+		function shraniStolpec(s) {
+			stolpec = s;
+			let izbira = document.getElementById("izbira");
+			izbira.classList.remove("is-active");
+
+			naslov.innerHTML = "Miza " + vrsta + stolpec;
+		}
+
+		function zapriDodatke() {
+			let izbira = document.getElementById("dodatki");
+			izbira.classList.remove("is-active");
+		}
+
+		document.body.addEventListener("nastaviShrani", function(evt) {
+			htmx.find('#shrani').setAttribute('hx-get', '/shrani_narocilo.php?narocilo=' + evt.detail.narocilo);
+			htmx.process('#shrani');
+		})
+	</script>
 </body>
 
 </html>
