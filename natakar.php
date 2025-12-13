@@ -1,3 +1,10 @@
+<?php
+
+include_once("baza.php");
+include_once("preveri.php");
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -27,7 +34,9 @@
 	<section class="section p-1">
 		<div class="container">
 			<div id="pogled">
-				
+				<?php
+				include("narocila.php");
+				?>
 			</div>
 
 			<nav class="navbar buttons spodna is-fixed-bottom">
