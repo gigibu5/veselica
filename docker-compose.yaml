@@ -4,8 +4,6 @@ services:
   app:
     build: .
     image: veselica:latest
-    ports:
-      - "8000:80"
     environment:
       DB_HOST: db
       DB_USER: uporabnik
@@ -14,7 +12,6 @@ services:
     depends_on:
       - db
     restart: unless-stopped
-
   db:
     image: mariadb:12
     environment:
@@ -31,6 +28,27 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+  
+  ssl_proxy:
+    image: nginx:latest
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    environment:
+      - APP_DOMAIN=your-domain.com
+    depends_on:
+      - certbot
+    restart: unless-stopped
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
 
 volumes:
   db_data:
