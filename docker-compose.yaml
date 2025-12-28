@@ -9,6 +9,8 @@ services:
       DB_USER: uporabnik
       DB_PASS: geslo
       DB_NAME: veselica
+    ports:
+      - 8000:80
     depends_on:
       - db
     restart: unless-stopped
@@ -29,25 +31,27 @@ services:
       retries: 5
     restart: unless-stopped
   
-  ssl_proxy:
+  nginx:
+    container_name: nginx
     image: nginx:latest
-    ports:
-      - "443:443"
-      - "80:80"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    environment:
-      - APP_DOMAIN=your-domain.com
-    depends_on:
-      - certbot
     restart: unless-stopped
+    env_file: .env
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - app
+    volumes:
+      - ./nginx/secure/:/etc/nginx/templates/
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+
   certbot:
     image: certbot/certbot
     volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 
 volumes:
