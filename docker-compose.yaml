@@ -9,11 +9,14 @@ services:
       DB_USER: uporabnik
       DB_PASS: geslo
       DB_NAME: veselica
-    ports:
-      - 8000:80
+    #ports:
+    #  - 8000:80
     depends_on:
       - db
     restart: unless-stopped
+    networks:
+      - proxy_network
+
   db:
     image: mariadb:12
     environment:
@@ -30,21 +33,25 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
-  
-  nginx:
-    container_name: nginx
+    networks:
+      - proxy_network
+
+  proxy:
     image: nginx:latest
     restart: unless-stopped
-    env_file: .env
+    environment:
+      APP_DOMAIN: devops-sk-01.lrk.si
     ports:
       - 80:80
       - 443:443
     depends_on:
       - app
     volumes:
-      - ./nginx/secure/:/etc/nginx/templates/
+      - ./nginx/nginx.conf:/etc/nginx/templates/default.conf.template
       - ./nginx/certbot/conf:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
+    networks:
+      - proxy_network
 
   certbot:
     image: certbot/certbot
@@ -56,3 +63,7 @@ services:
 
 volumes:
   db_data:
+
+networks:
+  proxy_network:
+

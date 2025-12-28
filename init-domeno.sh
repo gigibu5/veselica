@@ -42,7 +42,7 @@ docker compose -f "docker-compose.yaml" run --rm --entrypoint "\
 echo
 
 echo "### Starting nginx ..."
-docker compose  -f "docker-compose.yaml" up --force-recreate -d nginx
+docker compose  -f "docker-compose.yaml" up --force-recreate -d proxy
 echo
 
 echo "### Deleting dummy certificate for $domains ..."
