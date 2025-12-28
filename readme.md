@@ -43,8 +43,6 @@ Ta projekt ponuja Docker okolje za poganjanje PHP aplikacije **Veselica**, ki up
 #### Omrežja:
 - **proxy_network**: Skupno omrežje za vse servise.
 
----
-
 ## Uporaba
 1. Postavite okolje z ukazom:
    ```bash
