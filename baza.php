@@ -2,7 +2,7 @@
 $servername = getenv('DB_HOST');
 $username = getenv('DB_USER');
 $password = getenv('DB_PASS');
-$dbname = "veselica";
+$dbname = getenv('DB_NAME');
 
 // Create connection
 $conn = new mysqli($servername, $username, $password);
@@ -18,7 +18,12 @@ if (!$obstaja) {
 	$sql = "CREATE DATABASE $dbname";
 	$conn->query($sql);
 	$conn->select_db($dbname);
+}
+$conn->select_db($dbname);
 
+$so_tabele = $conn->query("SHOW TABLES LIKE 'uporabnik';")->num_rows;
+
+if (!$so_tabele) {
 	$filename = 'veselica-1.sql';
 
 	$templine = '';
@@ -34,6 +39,4 @@ if (!$obstaja) {
 			$templine = '';
 		}
 	}
-} else {
-	$conn->select_db($dbname);
 }

@@ -1,5 +1,5 @@
 CREATE TABLE `kategorija` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `naziv` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 );
@@ -7,7 +7,7 @@ INSERT INTO `kategorija` (`id`, `naziv`)
 VALUES (1, 'Hrana'),
   (2, 'Pijača');
 CREATE TABLE `artikel` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `naziv` varchar(45) NOT NULL,
   `kategorija` int(11) NOT NULL,
   `barva` varchar(45) NOT NULL,
@@ -52,7 +52,7 @@ VALUES (1, 'Laško 0,5l', 2, 'is-danger'),
   (39, 'Plačilo s kartico', 1, 'is-ziga'),
   (40, 'Špricar 0,3l', 2, 'is-info');
 CREATE TABLE `dodatek` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `naziv` varchar(45) NOT NULL,
   PRIMARY KEY (id)
 );
@@ -80,7 +80,7 @@ VALUES (3, 1, 0),
   (38, 3, 0),
   (38, 4, 0);
 CREATE TABLE `miza` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `vrsta` char(1) NOT NULL,
   `stolpec` int(11) NOT NULL,
   PRIMARY KEY(`id`)
@@ -181,7 +181,7 @@ VALUES (6, 'A', 1),
   (105, 'M', 3),
   (106, 'M', 4);
 CREATE TABLE `uporabnik` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `ime` varchar(45) NOT NULL,
   `user` varchar(45) NOT NULL,
   `pass` varchar(45) NOT NULL,
@@ -191,7 +191,7 @@ CREATE TABLE `uporabnik` (
 INSERT INTO `uporabnik` (`id`, `ime`, `user`, `pass`, `admin`)
 VALUES (1, 'Administrator', 'admin', 'admin', 1);
 CREATE TABLE `narocilo` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `miza` int(11) NOT NULL,
   `uporabnik` int(11) NOT NULL,
   `cas` timestamp NULL DEFAULT NULL,
@@ -202,7 +202,7 @@ CREATE TABLE `narocilo` (
   FOREIGN KEY (`uporabnik`) REFERENCES `uporabnik` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE `pozicija` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `kolicina` int(11) NOT NULL DEFAULT 1,
   `narocilo` int(11) NOT NULL,
   `artikel` int(11) NOT NULL,

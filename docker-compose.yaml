@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    image: veselica:latest
+    ports:
+      - "8000:80"
+    environment:
+      DB_HOST: db
+      DB_USER: uporabnik
+      DB_PASS: geslo
+      DB_NAME: veselica
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mariadb:12
+    environment:
+      MARIADB_ROOT_PASSWORD: geslo
+      MARIADB_DATABASE: veselica
+      MARIADB_USER: uporabnik
+      MARIADB_PASSWORD: geslo
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  db_data:
