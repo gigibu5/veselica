@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Veselica PGD Šmarca</title>
 	<link rel="stylesheet" href="/css/bulma.min.css">
+	<link rel="stylesheet" href="/css/stil.css">
 </head>
 
 <body>

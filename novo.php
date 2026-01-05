@@ -27,6 +27,7 @@ WHERE n.id=$narocilo;";
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Veselica PGD Šmarca</title>
 	<link rel="stylesheet" href="/css/bulma.min.css">
+	<link rel="stylesheet" href="/css/stil.css">
 	<script src="js/fontawesome.js" crossorigin="anonymous"></script>
 	<script src="js/htmx.min.js"></script>
 	<style>
@@ -71,6 +72,17 @@ WHERE n.id=$narocilo;";
 			top: 0;
 			right: 0;
 		}
+
+		.button.is-ziga {
+	--bulma-button-h: var(--bulma-info-h);
+	--bulma-button-s: var(--bulma-info-s);
+	--bulma-button-l: var(--bulma-info-l);
+	--bulma-button-background-l: var(--bulma-info-l);
+	--bulma-button-border-l: var(--bulma-info-l);
+	--bulma-button-border-width: 0px;
+	--bulma-button-color-l: var(--bulma-info-invert-l);
+	--bulma-button-outer-shadow-a: 0;
+}
 	</style>
 </head>
 

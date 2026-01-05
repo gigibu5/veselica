@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Veselica PGD Šmarca</title>
 	<link rel="stylesheet" href="/css/bulma.min.css">
+	<link rel="stylesheet" href="/css/stil.css">
 	<script src="https://kit.fontawesome.com/ad105f2802.js" crossorigin="anonymous"></script>
 	</style>
 </head>
