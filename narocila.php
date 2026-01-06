@@ -64,18 +64,38 @@ if ($res->num_rows == 0) {
 			</header>
 			<div class="card-content">
 				<div class="content">
+					<?php
+					$c = $conn->query("SELECT COUNT(*) as hrana 
+									   FROM pozicija p
+									   INNER JOIN artikel a ON (a.id = p.artikel)
+									   WHERE p.narocilo = $narocilo AND a.kategorija = 1;");
+					if (intval($c->fetch_column())) {
+						include("status_narocila.php");
+					}
+					?>
 					<ul>
 						<?php
 						$sql = "SELECT p.kolicina, a.naziv, a.kategorija
 							FROM pozicija p
 							INNER JOIN artikel a ON (a.id = p.artikel)
-							AND p.narocilo = $narocilo;";
+							AND p.narocilo = $narocilo
+							ORDER BY a.kategorija DESC;";
 
 						$pozicije = $conn->query($sql);
+
+						$prejsnja = 0;
 						while ($p = $pozicije->fetch_assoc()) {
 							$kolicina = $p["kolicina"];
 							$naziv = $p["naziv"];
+							$kategorija = $p["kategorija"];
+
+							if ($prejsnja != $kategorija && $prejsnja != 0) { // razdeli naročilo na hrano in pijačo
+								echo "</ul><hr style='margin: 0; background-color: var(--bulma-text); height: 1px;'><ul>";
+							}
+
 							echo "<li>" . $kolicina . "x $naziv</li>";
+
+							$prejsnja = intval($kategorija);
 						}
 
 						?>
