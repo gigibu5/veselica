@@ -1,4 +1,5 @@
 <div id="pogled" class="mize buttons">
+
 	<?php
 
 	include_once("baza.php");
@@ -41,6 +42,13 @@
 		echo <<<IZPIS
 			<button class="button $barva baton" hx-get="dodaj_pozicijo.php?artikel=$aid&narocilo=$narocilo" hx-swap="outerHTML">
 				$naziv
+		IZPIS;
+
+		if ($kolicina) {
+			echo "<span class=\"stevec\">$kolicina</span>";
+		}
+
+		echo <<<IZPIS
 			</button>
 		IZPIS;
 	}
