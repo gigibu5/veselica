@@ -17,6 +17,8 @@ include_once("preveri.php");
 	<script src="js/fontawesome.js" crossorigin="anonymous"></script>
 	<script src="js/htmx.min.js"></script>
 
+	<link rel="manifest" href="manifest.json">
+
 	<style>
 		.spodna {
 			display: grid;
@@ -47,6 +49,11 @@ include_once("preveri.php");
 			</nav>
 		</div>
 	</section>
+	<script>
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/js/service-worker.js');
+		}
+	</script>
 </body>
 
 </html>

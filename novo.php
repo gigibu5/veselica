@@ -30,6 +30,8 @@ WHERE n.id=$narocilo;";
 	<link rel="stylesheet" href="/css/stil.css">
 	<script src="js/fontawesome.js" crossorigin="anonymous"></script>
 	<script src="js/htmx.min.js"></script>
+
+	<link rel="manifest" href="manifest.json">
 	<style>
 		.spodna {
 			display: grid;
@@ -74,15 +76,15 @@ WHERE n.id=$narocilo;";
 		}
 
 		.button.is-ziga {
-	--bulma-button-h: var(--bulma-info-h);
-	--bulma-button-s: var(--bulma-info-s);
-	--bulma-button-l: var(--bulma-info-l);
-	--bulma-button-background-l: var(--bulma-info-l);
-	--bulma-button-border-l: var(--bulma-info-l);
-	--bulma-button-border-width: 0px;
-	--bulma-button-color-l: var(--bulma-info-invert-l);
-	--bulma-button-outer-shadow-a: 0;
-}
+			--bulma-button-h: var(--bulma-info-h);
+			--bulma-button-s: var(--bulma-info-s);
+			--bulma-button-l: var(--bulma-info-l);
+			--bulma-button-background-l: var(--bulma-info-l);
+			--bulma-button-border-l: var(--bulma-info-l);
+			--bulma-button-border-width: 0px;
+			--bulma-button-color-l: var(--bulma-info-invert-l);
+			--bulma-button-outer-shadow-a: 0;
+		}
 	</style>
 </head>
 
@@ -150,6 +152,10 @@ WHERE n.id=$narocilo;";
 			htmx.find('#shrani').setAttribute('hx-get', '/shrani_narocilo.php?narocilo=' + evt.detail.narocilo);
 			htmx.process('#shrani');
 		})
+
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/js/service-worker.js');
+		}
 	</script>
 </body>
 

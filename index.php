@@ -7,6 +7,8 @@
 	<title>Veselica PGD Šmarca</title>
 	<link rel="stylesheet" href="/css/bulma.min.css">
 	<link rel="stylesheet" href="/css/stil.css">
+
+	<link rel="manifest" href="manifest.json">
 </head>
 
 <body>
@@ -23,6 +25,11 @@
 			</div>
 		</div>
 	</section>
+	<script>
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/js/service-worker.js');
+		}
+	</script>
 </body>
 
 </html>
